@@ -51,7 +51,10 @@ export const HomeView = () => {
         <Link to="/faucet">
           <Button>Faucet</Button>
         </Link>
-      </Col>
+        <Link to="/faucet">
+          <Button style={{ marginLeft: "1rem"}}>Send</Button>
+        </Link>
+        </Col>
       <Col span={24}>
         <div className="builton" />
       </Col>
