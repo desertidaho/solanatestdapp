@@ -12,7 +12,7 @@ import { formatUSD } from "../../utils/utils";
 export const HomeView = () => {
   const { marketEmitter, midPriceInUSD } = useMarkets();
   const { tokenMap } = useConnectionConfig();
-  const SRM_ADDRESS = "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt";
+  const SRM_ADDRESS = "EuqHfMpze6S8qXMvZaCjGypBHAgc4TZcoNwLExqsaKV8";
   const SRM = useUserBalance(SRM_ADDRESS);
   const SOL = useUserBalance(WRAPPED_SOL_MINT);
   const { balanceInUSD: totalBalanceInUSD } = useUserTotalBalance();
@@ -34,7 +34,7 @@ export const HomeView = () => {
   return (
     <Row gutter={[16, 16]} align="middle">
       <Col span={24}>
-        <h2>Your balances ({formatUSD.format(totalBalanceInUSD)}):</h2>
+        <h2>Brett's balances ({formatUSD.format(totalBalanceInUSD)}):</h2>
         <h2>
           SOL: {SOL.balance} ({formatUSD.format(SOL.balanceInUSD)})
         </h2>
