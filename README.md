@@ -67,4 +67,4 @@ Generic react hooks to interact with token program:
 ## src/views
 
 * home - main page for your app
-* faucet - airdrops SOL on Testnet and Devnet
+

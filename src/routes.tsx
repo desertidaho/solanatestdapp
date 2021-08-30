@@ -6,7 +6,7 @@ import { AccountsProvider } from "./contexts/accounts";
 import { MarketProvider } from "./contexts/market";
 import { AppLayout } from "./components/Layout";
 
-import { FaucetView, HomeView } from "./views";
+import { HomeView } from "./views";
 import {
   getLedgerWallet,
   getMathWallet,
@@ -46,7 +46,6 @@ export function Routes() {
               <AppLayout>
                 <Switch>
                   <Route exact path="/" component={() => <HomeView />} />
-                  <Route exact path="/faucet" children={<FaucetView />} />
                 </Switch>
               </AppLayout>
             </MarketProvider>

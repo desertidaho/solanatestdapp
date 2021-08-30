@@ -1,13 +1,19 @@
 import { WalletMultiButton } from "@solana/wallet-adapter-ant-design";
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { TokenIcon } from "../../components/TokenIcon";
 import { useConnectionConfig } from "../../contexts/connection";
 import { useMarkets } from "../../contexts/market";
 import { useUserBalance, useUserTotalBalance } from "../../hooks";
 import { WRAPPED_SOL_MINT } from "../../utils/ids";
 import { formatUSD } from "../../utils/utils";
+import { LABELS } from "../../constants";
+import { useConnection } from "../../contexts/connection";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useCallback } from "react";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { notify } from "../../utils/notifications";
+import { ConnectButton } from "./../../components/ConnectButton";
 
 export const HomeView = () => {
   const { marketEmitter, midPriceInUSD } = useMarkets();
@@ -16,6 +22,27 @@ export const HomeView = () => {
   const SRM = useUserBalance(SRM_ADDRESS);
   const SOL = useUserBalance(WRAPPED_SOL_MINT);
   const { balanceInUSD: totalBalanceInUSD } = useUserTotalBalance();
+  const connection = useConnection();
+  const { publicKey } = useWallet();
+
+  const handleRequestAirdrop = useCallback(async () => {
+    try {
+      if (!publicKey) {
+        return;
+      }
+      await connection.requestAirdrop(publicKey, 2 * LAMPORTS_PER_SOL);
+      notify({
+        message: LABELS.ACCOUNT_FUNDED,
+        type: "success",
+      });
+    } catch (error) {
+      notify({
+        message: LABELS.AIRDROP_FAIL,
+        type: "error",
+      });
+      console.error(error);
+    }
+  }, [publicKey, connection]);
 
   useEffect(() => {
     const refreshTotal = () => {};
@@ -48,12 +75,13 @@ export const HomeView = () => {
         <WalletMultiButton type="ghost" />
       </Col>
       <Col span={12}>
-        <Link to="/faucet">
-          <Button>Faucet</Button>
-        </Link>
-        <Link to="/faucet">
-          <Button style={{ marginLeft: "1rem"}}>Send</Button>
-        </Link>
+        <div className="flexColumn" style={{ flex: 1 }}>
+        <div>
+          <ConnectButton type="primary" onClick={handleRequestAirdrop}>
+           {LABELS.GIVE_SOL}
+          </ConnectButton>
+      </div>
+    </div>
         </Col>
       <Col span={24}>
         <div className="builton" />
